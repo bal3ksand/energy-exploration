@@ -43,7 +43,7 @@ I seek to analyze United States energy data. There are dimensions and breakdowns
         - `gcloud composer environments storage dags import --environment ENVIRONMENT_NAME --location LOCATION --source="LOCAL_FILE_TO_UPLOAD"`
      - The Ingestion DAG will automatically run and load all files into your [GCS](https://console.cloud.google.com/storage)  bucket. Go to the [GCC Environments Page](https://console.cloud.google.com/composer/), choose your GCC Environment, and open the Airflow UI to check the status of your DAG.
 
-- [BigQuery](https://console.cloud.google.com/bigquery) - Transformations
+- ~~[BigQuery](https://console.cloud.google.com/bigquery) - Transformations~~
 	- Using the UI, create a table named "raw" for the raw data
 		- Table Type - Native
 		- Manually Choose the Schema as [shown on the bottom of this page](#raw-table-schema)
