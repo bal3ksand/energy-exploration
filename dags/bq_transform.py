@@ -1,15 +1,17 @@
 from airflow import DAG
 # https://airflow.apache.org/docs/apache-airflow-providers-google/stable/operators/cloud/bigquery.html#execute-bigquery-jobs
 # https://airflow.apache.org/docs/apache-airflow-providers-google/stable/operators/cloud/bigquery.html#create-external-table
-from airflow.providers.google.cloud.operators.bigquery import BigQueryCreateEmptyTableOperator, BigQueryInsertJobOperator
+# https://www.google.com/search?q=gcs_to_bq
+from airflow.providers.google.cloud.operators.bigquery import BigQueryCreateExternalTableOperator, BigQueryInsertJobOperator
 
-import datetime
+from datetime import datetime
 import os
 
-PROJECT_ID = os.getenv(GCP_PROJECT)
-LOCATION_NAME = os.getenv(BQ_DATASET_LOCATION, default=os.getenv(COMPOSER_LOCATION))
-BUCKET_NAME = os.getenv(GCS_BUCKET_LAKE)
-DATASET_NAME = os.getenv(BQ_DATASET_WH)
+
+PROJECT_ID = os.getenv("GCP_PROJECT")
+LOCATION_NAME = os.getenv("BQ_DATASET_LOCATION", default=os.getenv("COMPOSER_LOCATION"))
+BUCKET_NAME = os.getenv("GCS_BUCKET_LAKE")
+DATASET_NAME = os.getenv("BQ_DATASET_WH")
 
 CLEANED_TABLE_NAME = "raw_formatted"
 FACT_TABLE_NAME = "facts"
@@ -45,9 +47,9 @@ QUERIES = {
       CONCAT(
         "CREATE OR REPLACE TABLE `{PROJECT_ID}.{DATASET_NAME}.{FACT_TABLE_NAME}` AS (",
         "SELECT * FROM ",
-        "(SELECT Date, Value, REGEXP_REPLACE(CONCAT(DESCRIPTION, '_', UNIT), r'([ (),-.])', '_') AS Element FROM `{PROJECT_ID}.{DATASET}.{CLEANED_TABLE_NAME}`) ",
+        "(SELECT Date, Value, REGEXP_REPLACE(CONCAT(DESCRIPTION, '_', UNIT), r'([ (),-.])', '_') AS Element FROM `{PROJECT_ID}.{DATASET_NAME}.{CLEANED_TABLE_NAME}`) ",
         "PIVOT(MAX(Value) FOR Element IN (",
-        (SELECT STRING_AGG(DISTINCT CONCAT("'", REGEXP_REPLACE(CONCAT(DESCRIPTION, '_', UNIT), r'([ (),-.])', '_'), "'")) FROM `{PROJECT_ID}.{DATASET}.{CLEANED_TABLE_NAME}`),
+        (SELECT STRING_AGG(DISTINCT CONCAT("'", REGEXP_REPLACE(CONCAT(DESCRIPTION, '_', UNIT), r'([ (),-.])', '_'), "'")) FROM `{PROJECT_ID}.{DATASET_NAME}.{CLEANED_TABLE_NAME}`),
         "))",
         "ORDER BY Date",
         ")"
@@ -58,26 +60,27 @@ QUERIES = {
 
 
 with DAG(
-    dag_id="ingest_data_dag",
+    dag_id="transform_data_dag",
     schedule_interval="@monthly",
-    start_date=datetime(2022, 7, 1, 0, 30),
+    start_date=datetime(2022, 7, 1, 4, 30),
     catchup=True
 ) as dag:
 
     # create raw external table
-    create_raw_table = BigQueryCreateEmptyTableOperator(
+    create_raw_table = BigQueryCreateExternalTableOperator(
         task_id="create_raw_table",
         destination_project_dataset_table=f"{DATASET_NAME}.raw",
         bucket=BUCKET_NAME,
-        source_objects=[f"gs://{BUCKET_NAME}/dump/*"],    ################# ????
+        source_objects=["dump/*"],
         schema_fields=[
             {"name": "MSN", "type": "STRING", "mode": "NULLABLE"},
             {"name": "YYYYMM", "type": "INTEGER", "mode": "NULLABLE"},
-            {"name": "Value", "type": "STRING", "mode": "NULLABLE"},
+            {"name": "Value", "type": "STRING", "mode": "NULLABLE"},  # note
             {"name": "Column_Order", "type": "INTEGER", "mode": "NULLABLE"},
             {"name": "Description", "type": "STRING", "mode": "NULLABLE"},
             {"name": "Unit", "type": "STRING", "mode": "NULLABLE"}
-        ]
+        ],
+        skip_leading_rows=1
     )
     
     # job - create cleaned table from raw

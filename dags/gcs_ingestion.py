@@ -2,8 +2,8 @@ from airflow import DAG
 from airflow.operators.bash import BashOperator
 from airflow.operators.python import PythonOperator
 
-import datetime
 import os
+from datetime import datetime
 
 from google.cloud import storage
 
@@ -24,7 +24,7 @@ data_sources = (
     ("co2-emissions-by-source", "https://www.eia.gov/totalenergy/data/browser/csv.php?tbl=T11.01"),
 )
 
-BUCKET_NAME = os.getenv(GCS_BUCKET_LAKE)
+BUCKET_NAME = os.getenv("GCS_BUCKET_LAKE")
 
 # https://cloud.google.com/composer/docs/composer-2/cloud-storage
 GCS_DATA_DIR = "/home/airflow/gcs/data"
@@ -41,7 +41,7 @@ def upload_blob(bucket_name, source_file_name, destination_blob_name):
 with DAG(
     dag_id="ingest_data_dag",
     schedule_interval="@monthly",
-    start_date=datetime(2022, 7, 1, 0, 0),
+    start_date=datetime(2022, 7, 1, 4, 0),
     catchup=True
 ) as dag:
     
