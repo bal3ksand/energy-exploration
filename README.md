@@ -20,7 +20,7 @@
 
 - Terraform
 	- [Install](https://www.terraform.io/downloads)
-	- Edit [variables.tf](terraform/variables.tf)
+	- Edit [variables.tf](terraform/variables.tf):
 		- Enter your project ID and region
 		- Choose a name for your bucket and dataset
 	- Run `terraform apply` in the [terraform](terraform) directory
@@ -36,13 +36,12 @@
 	        - name: "BQ_DATASET_LOCATION", value: the location in [variables.tf](terraform/variables.tf)
 	    - Add the following environment variables:
 	        - name: "BQ_DATASET_WH", value: the dataset name in [variables.tf](terraform/variables.tf)
-	        - name: "GCS_BUCKET_LAKE", value: the bucket name in [variables.tf](terraform/variables.tf)	
+	        - name: "GCS_BUCKET_LAKE", value: the bucket name in [variables.tf](terraform/variables.tf)
     - Upload the [DAGs](dags) using the following script:
         - `gcloud composer environments storage dags import --environment ENVIRONMENT_NAME --location LOCATION --source="LOCAL_FILE_TO_UPLOAD"`
-     - Check out the Airflow UI
+    - Check out the Airflow UI
         - Go to the [GCC Environments Page](https://console.cloud.google.com/composer/), choose your GCC Environment, and open the Airflow UI.
-        - The DAGs start unpaused, and are scheduled to run on the 1st of every month at 4AM.
-        - Trigger the DAGs to get the latest data now. 
+        - The DAGs run once when uploaded, and are scheduled to run on the 1st of every month at 4AM.
 
 - [Data Studio](https://datastudio.google.com/)
 	- Line Graph: Total Primary Energy Production vs Total Energy CO2 Emissions

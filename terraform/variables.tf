@@ -11,10 +11,10 @@ variable "region" {
 
 variable "bucket_name" {
     description = "GCP Bucket Name of the Data Lake"
-    default = "energy-b"
+    default = "energy_prod"
 }
 
 variable "bq_dataset_name" {
     description = "BigQuery Dataset Name"
-    default = "energy_dataset"
+    default = "energy_prod"
 }
