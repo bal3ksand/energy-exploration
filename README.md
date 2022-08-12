@@ -1,6 +1,5 @@
 ## Description
-~~I seek to analyze United States energy data. There are dimensions and breakdowns such as total energy production and emissions. [I discovered that around 2012, energy production started to rise, while emissions stayed roughly the same (except for a drop when the COVID-19 pandemic began). The percent increase in energy production vastly outweighs the decrease in share of fossil fuel energy production](data-viz.pdf).~~
-**inaction.**
+**climate inaction.**
 
 ## Technology
 - Google Cloud Platform
@@ -43,6 +42,4 @@
         - Go to the [GCC Environments Page](https://console.cloud.google.com/composer/), choose your GCC Environment, and open the Airflow UI.
         - The DAGs run once when uploaded, and are scheduled to run on the 1st of every month at 4AM.
 
-- [Data Studio](https://datastudio.google.com/)
-	- Line Graph: Total Primary Energy Production vs Total Energy CO2 Emissions
-	- Pie Chart: Share of energy production by type
+- [Data Studio](https://datastudio.google.com/) -- [visualization](data-viz.pdf)
