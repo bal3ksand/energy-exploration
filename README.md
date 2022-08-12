@@ -28,9 +28,17 @@ I seek to analyze United States energy data. There are dimensions and breakdowns
     - Setup
 	    - Just use the console, the account permissions give lots of trouble otherwise.
 	    - Before you begin: [Enable the GCC API](https://console.cloud.google.com/flows/enableapi?apiid=composer.googleapis.com)
+	- Create environment
 	    - [Only Step 1 is required.](https://cloud.google.com/composer/docs/composer-2/create-environments#step_basic_setup)
 	    - When you create the first environment in your project, a **Grant required permissions to Cloud Composer service account** section appears on the environment creation page. Follow the guidance in this section to grant required permissions to the Cloud Composer service account.
-	- Change line 24 of the [Ingestion DAG](dags/gcs_ingestion.py) to match your bucket name
+	    
+	    - Use the same location as in [variables.tf](terraform/variables.tf). If you use a different location, set the vollowing environment variable:
+	        - name: "BQ_DATASET_LOCATION", value: the location in [variables.tf](terraform/variables.tf)
+	    - Add the following environment variables:
+	        - name: "BQ_DATASET_WH", value: the dataset name in [variables.tf](terraform/variables.tf)
+	        - name: "GCS_BUCKET_LAKE", value: the bucket name in [variables.tf](terraform/variables.tf)
+	- In BigQuery, grant the 
+	
     - Upload the [Ingestion DAG](dags/gcs_ingestion.py) using the following script:
         - `gcloud composer environments storage dags import --environment ENVIRONMENT_NAME --location LOCATION --source="LOCAL_FILE_TO_UPLOAD"`
      - The Ingestion DAG will automatically run and load all files into your [GCS](https://console.cloud.google.com/storage)  bucket. Go to the [GCC Environments Page](https://console.cloud.google.com/composer/), choose your GCC Environment, and open the Airflow UI to check the status of your DAG.

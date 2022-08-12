@@ -10,7 +10,7 @@ variable "region" {
 }
 
 variable "bucket_name" {
-    description = "GCP Bucket Name"
+    description = "GCP Bucket Name of the Data Lake"
     default = "energy-b"
 }
 

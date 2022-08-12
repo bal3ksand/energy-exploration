@@ -2,7 +2,8 @@ from airflow import DAG
 from airflow.operators.bash import BashOperator
 from airflow.operators.python import PythonOperator
 
-from airflow.utils.dates import days_ago
+import datetime
+import os
 
 from google.cloud import storage
 
@@ -11,6 +12,8 @@ from google.cloud import storage
 
 data_sources = (
     ("primary-energy-overview", "https://www.eia.gov/totalenergy/data/browser/csv.php?tbl=T01.01"),
+    ("primary-energy-production-by-source", "https://www.eia.gov/totalenergy/data/browser/csv.php?tbl=T01.02"),
+    ("primary-energy-consumption-by-source", "https://www.eia.gov/totalenergy/data/browser/csv.php?tbl=T01.03"),
     ("energy-consumption-expenditures-co2", "https://www.eia.gov/totalenergy/data/browser/csv.php?tbl=T01.07"),
     ("consumption-residential-commercial-industrial", "https://www.eia.gov/totalenergy/data/browser/csv.php?tbl=T02.01A"),
     ("consumption-transportation-enduse-electricpower","https://www.eia.gov/totalenergy/data/browser/csv.php?tbl=T02.01B"),
@@ -18,10 +21,10 @@ data_sources = (
     ("crude-oil-price", "https://www.eia.gov/totalenergy/data/browser/csv.php?tbl=T09.01"),
     ("avg-electricity-price", "https://www.eia.gov/totalenergy/data/browser/csv.php?tbl=T09.08"),
     ("natural-gas-prices", "https://www.eia.gov/totalenergy/data/browser/csv.php?tbl=T09.10"),
-    ("co2-emissions-by-source", "https://www.eia.gov/totalenergy/data/browser/csv.php?tbl=T11.01")
+    ("co2-emissions-by-source", "https://www.eia.gov/totalenergy/data/browser/csv.php?tbl=T11.01"),
 )
 
-BUCKET = "energy-b"
+BUCKET_NAME = os.getenv(GCS_BUCKET_LAKE)
 
 # https://cloud.google.com/composer/docs/composer-2/cloud-storage
 GCS_DATA_DIR = "/home/airflow/gcs/data"
@@ -37,8 +40,9 @@ def upload_blob(bucket_name, source_file_name, destination_blob_name):
 
 with DAG(
     dag_id="ingest_data_dag",
-    schedule_interval="@once",
-    default_args={'start_date': days_ago(1)}
+    schedule_interval="@monthly",
+    start_date=datetime(2022, 7, 1, 0, 0),
+    catchup=True
 ) as dag:
     
     for filename, url in data_sources:
@@ -52,7 +56,7 @@ with DAG(
             task_id=f"{filename}_to_gcs",
             python_callable=upload_blob,
             op_kwargs={
-                'bucket_name': BUCKET,
+                'bucket_name': BUCKET_NAME,
                 'source_file_name': f"{GCS_DATA_DIR}/{filename}.csv",
                 'destination_blob_name': f"dump/{filename}.csv"
             }
