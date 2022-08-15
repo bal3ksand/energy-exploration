@@ -3,12 +3,12 @@
 
 ## Technology
 ![pipeline](visualizations/pipeline.png)
+- [Terraform](https://www.terraform.io/)
 - Google Cloud Platform
-	- Cloud Composer 2 (Airflow)
-	- Cloud Storage
-	- BigQuery
-	- Data Studio
-- Terraform
+	- [Cloud Composer 2](https://cloud.google.com/composer)
+	- [Cloud Storage](https://cloud.google.com/storage/)
+	- [BigQuery](https://cloud.google.com/bigquery/)
+	- [Data Studio](https://cloud.google.com/datastudio/)
 
 ## Instructions
 - Clone this repo locally
@@ -23,13 +23,13 @@
 	- [Install Terraform](https://www.terraform.io/downloads).
 	- Edit [variables.tf](terraform/variables.tf):
 		- Enter your billing account and region.
-		- Choose a name for all other variables.
+		- Choose a name for the default value of all other variables.
 		- Do not change the "services" variable.
 	- Run `terraform apply` in the [terraform](terraform) directory.
     
 - Cloud Composer
     - Check out the Airflow UI:
         - Go to the [GCC Environments Page](https://console.cloud.google.com/composer/), choose your GCC Environment, and open the Airflow UI.
-        - The DAGs run once when uploaded, and are scheduled to run on the 1st of every month at 4AM.
+        - The DAGs automatically run once when uploaded (here, on `terraform apply`), and are scheduled to run on the 1st of every month at 4AM.
 
-- [Data Studio](https://datastudio.google.com/) -- [visualization](data-viz.pdf)
+- [Data Studio](https://datastudio.google.com/) -- [visualization](visualizations/consumption-emission.pdf)
