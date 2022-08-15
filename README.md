@@ -2,6 +2,7 @@
 **[climate inaction.](visualizations/consumption-emission.pdf)**
 
 ## Technology
+![pipeline](visualizations/pipeline.png)
 - Google Cloud Platform
 	- Cloud Composer 2 (Airflow)
 	- Cloud Storage
