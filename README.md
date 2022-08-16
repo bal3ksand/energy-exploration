@@ -1,4 +1,4 @@
-## Description
+## Analysis
 I wanted to explore energy consumption and emission data. [Visualization here](visualizations/energy_exploration.pdf).
 
 Total energy consumption is fairly stable since 2000, while total emissions have seen a very slight decline. While renewable energy consumption has seen a slight increase, it is still dwarfed by fossil fuel consumption (less than 1 Quadrillion Btu, compared to roughly 6 Quadrillion Btu), which has remained fairly stable. It appears that coal, which has seen a decline in consumption starting around 2008, is being replaced partially by natural gas, which is emits about 50% as much CO2 per Btu. 
