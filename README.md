@@ -16,7 +16,7 @@ It is worthwhile to note that a given fossil fuel's consumption and emissions fo
 	- [BigQuery](https://cloud.google.com/bigquery/)
 	- [Data Studio](https://cloud.google.com/datastudio/)
 	
-Terraform creates the GCP environment and uploads the DAGs. Cloud Composer runs the [ingestion DAG](dags/gcs_ingestion_dag.py) to get data from [eia.gov](https://www.eia.gov/) to the data lake (Cloud Storage). Cloud Composer then runs the [transform DAG](dags/bq_transform_dag.py) to get the data into the data warehouse (BigQuery), clean, and pivot the data. The fact table is then accessible from Data Studio for exploration and visualization.
+Terraform (see [main.tf](terraform/main.tf)) creates the GCP environment and uploads the DAGs. Cloud Composer runs the [ingestion DAG](dags/gcs_ingestion_dag.py) to get data from [eia.gov](https://www.eia.gov/) to the data lake (Cloud Storage). Cloud Composer then runs the [transform DAG](dags/bq_transform_dag.py) to get the data into the data warehouse (BigQuery), clean, and pivot the data. The fact table is then accessible from Data Studio for exploration and visualization.
 
 After running `terraform apply`, the environment will be created. The DAGs will run once automatically, then the 1st of every month at 4AM.
 
@@ -24,7 +24,7 @@ After running `terraform apply`, the environment will be created. The DAGs will 
 - Clone this repo locally
 - Google Cloud Platform Setup
     - Create a GCP account.
-    - Create a project with **billing enabled**.
+    - Make sure you have a billing account.
     - Install [gcloud cli](https://cloud.google.com/sdk/docs/install) for your OS.
     - Run `gcloud auth application-default login`
 
