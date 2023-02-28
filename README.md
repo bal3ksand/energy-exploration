@@ -1,11 +1,11 @@
 ## Analysis
 I wanted to explore energy consumption and emission data. [Visualization here](visualizations/energy_exploration.pdf).
 
-Total energy consumption is fairly stable since 2000, while total emissions have seen a very slight decline. While renewable energy consumption has seen a slight increase, it is still dwarfed by fossil fuel consumption (less than 1 Quadrillion Btu, compared to roughly 6 Quadrillion Btu), which has remained fairly stable. It appears that coal, which has seen a decline in consumption starting around 2008, is being replaced partially by natural gas, which is emits about 50% as much CO2 per Btu. 
+Total energy consumption is fairly stable since 2000, while total emissions have seen a notable decline. While renewable energy consumption has seen a slight increase, it is still dwarfed by fossil fuel consumption (less than 1 Quadrillion Btu, compared to roughly 6 Quadrillion Btu), which has remained fairly stable. It appears that coal, which has seen a decline in consumption starting around 2008, is being replaced partially by natural gas, which is emits about 50% as much CO2 per Btu. 
 
-Comparing 2009 to 2022, Natural Gas gained 10% and has taken the lead from Petroleum in consumption. Coal fell 10%, getting overtaken by Nuclear.
+Comparing 2009 to 2022, Natural Gas as a source gained 10% of the share of consumption, and has taken the lead from Petroleum. Coal fell 10%, getting overtaken by Nuclear.
 
-It is worthwhile to note that a given fossil fuel's consumption and emissions follow each other nearly perfectly. That is, any increase in efficiency, measured as a decrease in CO2 emissions per Btu, is not observed from 1973 to now. This could be due to physical limitations or a lack of technological magic.
+It is worthwhile to note that a given fossil fuel's consumption and emissions follow each other nearly perfectly. That is, any decrease in CO2 emissions per Btu, is not observed from 1973 to now. This could be due to physical limitations and/or a lack of technological magic.
 
 ## Technology
 ![pipeline](visualizations/pipeline.png)
